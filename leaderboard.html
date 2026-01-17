@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Leaderboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>🏆 Leaderboard (Top 5)</h1>
+    <ul>
+        {% for name, score in scores %}
+        <li>{{ name }} → {{ score }}</li>
+        {% endfor %}
+    </ul>
+    <p><a href="/">⬅ Back to Game</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Number Guessing Game</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="/static/confetti.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script src="/static/confetti.js"></script>
+
+</head>
+<body>
+<div class="container">
+    <h1>🎯 Number Guessing Game</h1>
+
+    {% if not game %}
+    <form method="post">
+        <label>Select Difficulty:</label><br>
+        <select name="difficulty">
+            <option value="easy">Easy (1-10)</option>
+            <option value="medium">Medium (1-50)</option>
+            <option value="hard">Hard (1-100)</option>
+        </select><br><br>
+        <button name="start">Start Game</button>
+    </form>
+    {% else %}
+    <p>Guess a number between 1 and {{ game.max_num }}</p>
+    <p id="timer">⏱ Time: <span id="timeLeft">60</span>s</p>
+    <p>Attempts left: {{ game.attempts }}</p>
+
+    {% if message %}
+    <p class="msg">{{ message }}</p>
+    <script>
+        {% if "Too High" not in message and "Too Low" not in message and "Game Over" not in message %}
+        launchConfetti();  // Confetti on correct guess
+        {% endif %}
+    </script>
+    {% endif %}
+
+    <form method="post">
+        <input type="number" name="guess" placeholder="Enter your guess" required>
+        <input type="text" name="name" placeholder="Your Name" required>
+        <button name="guess">Submit Guess</button>
+    </form>
+    {% endif %}
+
+    <p><a href="/leaderboard">🏆 View Leaderboard</a></p>
+</div>
+
+<script>
+let timeLeft = 60; // 60 seconds countdown
+const timerElement = document.getElementById("timeLeft");
+if(timerElement){
+    const countdown = setInterval(() => {
+        timeLeft--;
+        timerElement.textContent = timeLeft;
+        if(timeLeft <= 0){
+            clearInterval(countdown);
+            alert("⏱ Time's up! Submit your guess quickly.");
+        }
+    }, 1000);
+}
+</script>
+</body>
+</html>
